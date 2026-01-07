@@ -2,23 +2,24 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.EntityFrameworkCore;
+using Engine.Data;
+using Engine.Models;
+
 namespace Connect.Travel.Services;
 
-public class TravelPlanService
+public interface ITravelPlanService
 {
-    public interface ITravelPlanService
-    {
-        Task<List<TravelPlan>> GetAllAsync(Guid userId);
-        Task<TravelPlan> GetByIdAsync(Guid id, Guid userId);
-        Task<TravelPlan> CreateAsync(TravelPlan plan, Guid userId);
-        Task<bool> DeleteAsync(Guid id, Guid userId);
-    }
+    Task<List<TravelPlan>> GetAllAsync(Guid userId);
+    Task<TravelPlan> GetByIdAsync(Guid id, Guid userId);
+    Task<TravelPlan> CreateAsync(TravelPlan plan, Guid userId);
+    Task<bool> DeleteAsync(Guid id, Guid userId);
+}
 
-// Services/TravelPlanService.cs
-    public class TravelPlanService : ITravelPlanService
-    {
-        private readonly AppDbContext _context;
-        public TravelPlanService(AppDbContext context) => _context = context;
+public class TravelPlanService : ITravelPlanService
+{
+    private readonly AppDbContext _context;
+    public TravelPlanService(AppDbContext context) => _context = context;
 
         public async Task<List<TravelPlan>> GetAllAsync(Guid userId) =>
             await _context.TravelPlans.Where(p => p.UserId == userId).Include(p => p.User).ToListAsync();
@@ -43,5 +44,3 @@ public class TravelPlanService
             return true;
         }
     }
-
-}

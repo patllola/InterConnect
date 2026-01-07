@@ -1,22 +1,23 @@
+using Microsoft.EntityFrameworkCore;
+using Engine.Data;
+using Engine.Models;
+
 namespace Connect.Travel.Services;
 
-public class HelpRequestService
+public interface IHelpRequestService
 {
-    public interface IHelpRequestService
-    {
-        Task<List<HelpRequest>> GetAllAsync(Guid userId);
-        Task<HelpRequest> CreateAsync(HelpRequest request, Guid seekerId);
-        Task<HelpRequest> AcceptAsync(Guid requestId, Guid helperId);
-        Task<HelpRequest> CompleteAsync(Guid requestId, Guid userId);
-        Task<HelpRequest> PayAsync(Guid requestId, Guid seekerId);
-        Task<object> GetDetailsAsync(Guid requestId, Guid userId);
-    }
+    Task<List<HelpRequest>> GetAllAsync(Guid userId);
+    Task<HelpRequest> CreateAsync(HelpRequest request, Guid seekerId);
+    Task<HelpRequest> AcceptAsync(Guid requestId, Guid helperId);
+    Task<HelpRequest> CompleteAsync(Guid requestId, Guid userId);
+    Task<HelpRequest> PayAsync(Guid requestId, Guid seekerId);
+    Task<object> GetDetailsAsync(Guid requestId, Guid userId);
+}
 
-// Services/HelpRequestService.cs
-    public class HelpRequestService : IHelpRequestService
-    {
-        private readonly AppDbContext _context;
-        public HelpRequestService(AppDbContext context) => _context = context;
+public class HelpRequestService : IHelpRequestService
+{
+    private readonly AppDbContext _context;
+    public HelpRequestService(AppDbContext context) => _context = context;
 
         public async Task<List<HelpRequest>> GetAllAsync(Guid userId) =>
             await _context.HelpRequests.Where(r => r.SeekerId == userId || r.HelperId == userId).ToListAsync();
@@ -84,4 +85,3 @@ public class HelpRequestService
             };
         }
     }
-}

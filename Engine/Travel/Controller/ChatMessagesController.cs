@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Engine.Models;
 using Engine.Data;
+using Connect.Travel.Services;
 
 namespace Engine.Travel.Controller
 {
@@ -15,11 +16,13 @@ namespace Engine.Travel.Controller
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IChatService _chatService;
 
-        public ChatMessagesController(AppDbContext context, IHttpContextAccessor httpContextAccessor)
+        public ChatMessagesController(AppDbContext context, IHttpContextAccessor httpContextAccessor, IChatService chatService)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _chatService = chatService;
         }
 
         [HttpGet("byRequest/{requestId}")]
@@ -43,7 +46,7 @@ namespace Engine.Travel.Controller
             var request = await _context.HelpRequests.FindAsync(message.HelpRequestId);
             if (request == null || (request.SeekerId != userId && request.HelperId != userId)) return Forbid();
 
-            message.SenderId = userId.ToString();
+            message.SenderId = userId;
             message.SentAt = DateTime.UtcNow;
             _context.ChatMessages.Add(message);
             await _context.SaveChangesAsync();

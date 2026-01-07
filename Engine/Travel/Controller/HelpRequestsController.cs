@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Connect.Travel.Services;
 using Engine.Models;
-using Engine.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace Engine.Travel.Controller
@@ -15,10 +14,10 @@ namespace Engine.Travel.Controller
     [Authorize]
     public class HelpRequestsController : ControllerBase
     {
-        private readonly HelpRequestService.IHelpRequestService _service;
+        private readonly IHelpRequestService _service;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HelpRequestsController(HelpRequestService.IHelpRequestService service, IHttpContextAccessor httpContextAccessor)
+        public HelpRequestsController(IHelpRequestService service, IHttpContextAccessor httpContextAccessor)
         {
             _service = service;
             _httpContextAccessor = httpContextAccessor;

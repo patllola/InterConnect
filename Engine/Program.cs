@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Engine.Data;
-using Engine.Services;
 using Connect.Travel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,9 +31,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<HelpRequestService.IHelpRequestService, HelpRequestService.HelpRequestService>();
-builder.Services.AddScoped<TravelPlanService.ITravelPlanService, TravelPlanService.TravelPlanService>();
-builder.Services.AddScoped<ChatService.IChatService, ChatService.ChatService>();
+builder.Services.AddScoped<IHelpRequestService, HelpRequestService>();
+builder.Services.AddScoped<ITravelPlanService, TravelPlanService>();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 var app = builder.Build();
 
