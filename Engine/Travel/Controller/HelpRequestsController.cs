@@ -31,6 +31,14 @@ namespace Engine.Travel.Controller
             return Ok(await _service.GetAllAsync(userId));
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var userId = GetUserId();
+            var details = await _service.GetDetailsAsync(id, userId);
+            return details == null ? NotFound() : Ok(details);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(HelpRequest request)
         {
@@ -45,6 +53,22 @@ namespace Engine.Travel.Controller
             var helperId = GetUserId();
             var updated = await _service.AcceptAsync(id, helperId);
             return updated == null ? NotFound() : Ok(updated);
+        }
+
+        [HttpPut("{id}/complete")]
+        public async Task<IActionResult> Complete(Guid id)
+        {
+            var userId = GetUserId();
+            var updated = await _service.CompleteAsync(id, userId);
+            return updated == null ? NotFound() : Ok(updated);
+        }
+
+        [HttpPost("{id}/pay")]
+        public async Task<IActionResult> Pay(Guid id)
+        {
+            var seekerId = GetUserId();
+            var updated = await _service.PayAsync(id, seekerId);
+            return updated == null ? BadRequest("Cannot pay for this request.") : Ok(updated);
         }
 
         private Guid GetUserId()

@@ -9,6 +9,8 @@ using Engine.Services;
 using Microsoft.AspNetCore.Http;
 
 
+using Engine.Models.DTOs;
+
 namespace Engine.Travel.Controller;
 
 
@@ -29,11 +31,48 @@ namespace Engine.Travel.Controller;
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var userId = GetUserId();
-            return Ok(await _context.TravelPlans
-                .Where(p => p.UserId == userId)
+            var plans = await _context.TravelPlans
                 .Include(p => p.User)
-                .ToListAsync());
+                .Select(p => new TravelPlanDto
+                {
+                    Id = p.Id,
+                    UserId = p.UserId,
+                    FromCountry = p.FromCountry,
+                    ToCountry = p.ToCountry,
+                    TravelDate = p.TravelDate,
+                    Description = p.Description,
+                    User = new UserPublicDto
+                    {
+                        Id = p.User.Id,
+                        Name = p.User.Name
+                    }
+                })
+                .ToListAsync();
+            return Ok(plans);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string from, string to, DateTime date)
+        {
+            var plans = await _context.TravelPlans
+                .Where(p => p.FromCountry == from && p.ToCountry == to && p.TravelDate.Date == date.Date)
+                .Include(p => p.User)
+                .Select(p => new TravelPlanDto
+                {
+                    Id = p.Id,
+                    UserId = p.UserId,
+                    FromCountry = p.FromCountry,
+                    ToCountry = p.ToCountry,
+                    TravelDate = p.TravelDate,
+                    Description = p.Description,
+                    User = new UserPublicDto
+                    {
+                        Id = p.User.Id,
+                        Name = p.User.Name
+                    }
+                })
+                .ToListAsync();
+            return Ok(plans);
         }
 
         [HttpPost]
