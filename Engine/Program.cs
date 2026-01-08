@@ -44,6 +44,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Redirect root to swagger
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
