@@ -1,4 +1,3 @@
-// Chat/ChatMessagesController.cs
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
