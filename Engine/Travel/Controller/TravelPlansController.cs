@@ -5,13 +5,13 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Connect.Travel.Services;
-using Engine.Models;
+using Shared.Models;
 using Engine.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-using Engine.Models.DTOs;
+using Shared.Models.DTOs;
 
 namespace Engine.Travel.Controller;
 
@@ -31,6 +31,7 @@ namespace Engine.Travel.Controller;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var plans = await _context.TravelPlans

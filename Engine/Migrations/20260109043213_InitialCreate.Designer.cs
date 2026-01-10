@@ -25,7 +25,7 @@ namespace Engine.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Engine.Models.ChatMessage", b =>
+            modelBuilder.Entity("Shared.Models.ChatMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace Engine.Migrations
                     b.ToTable("ChatMessages");
                 });
 
-            modelBuilder.Entity("Engine.Models.HelpRequest", b =>
+            modelBuilder.Entity("Shared.Models.HelpRequest", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace Engine.Migrations
                     b.ToTable("HelpRequests");
                 });
 
-            modelBuilder.Entity("Engine.Models.TravelPlan", b =>
+            modelBuilder.Entity("Shared.Models.TravelPlan", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,7 +120,7 @@ namespace Engine.Migrations
                     b.ToTable("TravelPlans");
                 });
 
-            modelBuilder.Entity("Engine.Models.User", b =>
+            modelBuilder.Entity("Shared.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,9 +151,9 @@ namespace Engine.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Engine.Models.ChatMessage", b =>
+            modelBuilder.Entity("Shared.Models.ChatMessage", b =>
                 {
-                    b.HasOne("Engine.Models.HelpRequest", "HelpRequest")
+                    b.HasOne("Shared.Models.HelpRequest", "HelpRequest")
                         .WithMany()
                         .HasForeignKey("HelpRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -162,13 +162,13 @@ namespace Engine.Migrations
                     b.Navigation("HelpRequest");
                 });
 
-            modelBuilder.Entity("Engine.Models.HelpRequest", b =>
+            modelBuilder.Entity("Shared.Models.HelpRequest", b =>
                 {
-                    b.HasOne("Engine.Models.User", "Helper")
+                    b.HasOne("Shared.Models.User", "Helper")
                         .WithMany()
                         .HasForeignKey("HelperId");
 
-                    b.HasOne("Engine.Models.User", "Seeker")
+                    b.HasOne("Shared.Models.User", "Seeker")
                         .WithMany()
                         .HasForeignKey("SeekerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -179,9 +179,9 @@ namespace Engine.Migrations
                     b.Navigation("Seeker");
                 });
 
-            modelBuilder.Entity("Engine.Models.TravelPlan", b =>
+            modelBuilder.Entity("Shared.Models.TravelPlan", b =>
                 {
-                    b.HasOne("Engine.Models.User", "User")
+                    b.HasOne("Shared.Models.User", "User")
                         .WithMany("TravelPlans")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -190,7 +190,7 @@ namespace Engine.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Engine.Models.User", b =>
+            modelBuilder.Entity("Shared.Models.User", b =>
                 {
                     b.Navigation("TravelPlans");
                 });

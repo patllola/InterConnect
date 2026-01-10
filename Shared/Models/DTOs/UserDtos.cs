@@ -1,6 +1,6 @@
 using System;
 
-namespace Engine.Models.DTOs
+namespace Shared.Models.DTOs
 {
     public class UserPublicDto
     {

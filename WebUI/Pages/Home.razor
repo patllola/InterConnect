@@ -1,0 +1,55 @@
+﻿@page "/"
+@using Shared.Models.DTOs
+@inject HttpClient Http
+
+<PageTitle>Home</PageTitle>
+
+<h1>Travel Assist</h1>
+
+<p>Welcome to InterAssit - Your travel Friend.</p>
+
+@if (travelPlans == null)
+{
+    <p><em>Loading travel plans...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var plan in travelPlans)
+            {
+                <tr>
+                    <td>@plan.FromCountry</td>
+                    <td>@plan.ToCountry</td>
+                    <td>@plan.TravelDate.ToShortDateString()</td>
+                    <td>@plan.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<TravelPlanDto>? travelPlans;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            travelPlans = await Http.GetFromJsonAsync<List<TravelPlanDto>>("api/TravelPlans");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            travelPlans = new List<TravelPlanDto>();
+        }
+    }
+}

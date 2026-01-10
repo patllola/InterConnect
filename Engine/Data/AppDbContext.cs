@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Engine.Models;
+using Shared.Models;
 
 namespace Engine.Data
 {

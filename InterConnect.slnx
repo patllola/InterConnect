@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Engine/Engine.csproj" />
+  <Project Path="Shared/Shared.csproj" />
+  <Project Path="WebUI/WebUI.csproj" />
+</Solution>

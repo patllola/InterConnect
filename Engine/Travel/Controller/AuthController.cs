@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Engine.Data;
-using Engine.Models;
+using Shared.Models;
 using BCrypt.Net;
 
 namespace Engine.Travel.Controller

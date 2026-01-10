@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-
-namespace Engine.Models
+namespace Shared.Models
 {
     public class User
     {
