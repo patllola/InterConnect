@@ -8,7 +8,7 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Engine.Data;
-using Shared.Models;
+using Shared.Models.TravelPlan.Model;
 
 namespace Connect.Travel.Services;
 

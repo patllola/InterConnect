@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Shared.Models;
+using Shared.Models.User.Models;
+using Shared.Models.TravelPlan.Model;
+using Shared.Models.HelpRequest.Models;
+using Shared.Models.ChatMessages.Models;
 
 namespace Engine.Data
 {

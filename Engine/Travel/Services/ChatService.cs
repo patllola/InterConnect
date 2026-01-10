@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Engine.Data;
-using Shared.Models;
+using Shared.Models.ChatMessages.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;

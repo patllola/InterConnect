@@ -5,13 +5,13 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Connect.Travel.Services;
-using Shared.Models;
 using Engine.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-
-using Shared.Models.DTOs;
+using Shared.Models.TravelPlan.Dtos.GetDto;
+using Shared.Models.TravelPlan.Dtos.CreateDto;
+using Shared.Models.User.Dtos.GetDto;
+using Shared.Models.TravelPlan.Model;
 
 namespace Engine.Travel.Controller;
 
@@ -79,20 +79,59 @@ namespace Engine.Travel.Controller;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TravelPlan plan)
+        public async Task<IActionResult> Create(CreateTravelPlanDto dto)
         {
-            plan.UserId = GetUserId();
+            var plan = new TravelPlan
+            {
+                UserId = GetUserId(),
+                FromCountry = dto.FromCountry,
+                ToCountry = dto.ToCountry,
+                TravelDate = dto.TravelDate,
+                Description = dto.Description
+            };
+            
             _context.TravelPlans.Add(plan);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = plan.Id }, plan);
+
+            var resultDto = new TravelPlanDto
+            {
+                Id = plan.Id,
+                UserId = plan.UserId,
+                FromCountry = plan.FromCountry,
+                ToCountry = plan.ToCountry,
+                TravelDate = plan.TravelDate,
+                Description = plan.Description
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id = plan.Id }, resultDto);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var userId = GetUserId();
-            var plan = await _context.TravelPlans.FirstOrDefaultAsync(p => p.Id == id && p.UserId == userId);
-            return plan == null ? NotFound() : Ok(plan);
+            var plan = await _context.TravelPlans
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == userId);
+            
+            if (plan == null) return NotFound();
+
+            var dto = new TravelPlanDto
+            {
+                Id = plan.Id,
+                UserId = plan.UserId,
+                FromCountry = plan.FromCountry,
+                ToCountry = plan.ToCountry,
+                TravelDate = plan.TravelDate,
+                Description = plan.Description,
+                User = new UserPublicDto
+                {
+                    Id = plan.User.Id,
+                    Name = plan.User.Name
+                }
+            };
+
+            return Ok(dto);
         }
 
         [HttpDelete("{id}")]

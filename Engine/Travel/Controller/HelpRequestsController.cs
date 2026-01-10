@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Connect.Travel.Services;
-using Shared.Models;
+using Shared.Models.HelpRequest.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace Engine.Travel.Controller
