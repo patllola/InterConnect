@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Shared.Models.User.Models;
-
 namespace Shared.Models.TravelPlan.Model;
 
 public class TravelPlan
@@ -10,7 +8,7 @@ public class TravelPlan
         
         [Required]
         public Guid UserId { get; set; }
-        public User? User { get; set; }
+        public Shared.Models.User.Models.User? User { get; set; }
         
         [Required]
         [StringLength(100)]

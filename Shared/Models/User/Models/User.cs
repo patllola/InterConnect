@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Shared.Models.TravelPlan.Model;
+using TravelPlanModel = Shared.Models.TravelPlan.Model.TravelPlan;
 
 namespace Shared.Models.User.Models;
 
@@ -22,5 +22,5 @@ public class User
         public string PhoneNumber { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
 
-        public ICollection<TravelPlan> TravelPlans { get; set; } = new List<TravelPlan>();
+        public ICollection<TravelPlanModel> TravelPlans { get; set; } = new List<TravelPlanModel>();
 }

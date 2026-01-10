@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using Shared.Models.HelpRequest.Enums;
-using Shared.Models.User.Models;
 
 namespace Shared.Models.HelpRequest.Models;
 
@@ -11,10 +10,10 @@ public class HelpRequest
         
         [Required]
         public Guid SeekerId { get; set; }
-        public User? Seeker { get; set; }
+        public Shared.Models.User.Models.User? Seeker { get; set; }
         
         public Guid? HelperId { get; set; }
-        public User? Helper { get; set; }
+        public Shared.Models.User.Models.User? Helper { get; set; }
         
         [Required]
         [StringLength(1000)]

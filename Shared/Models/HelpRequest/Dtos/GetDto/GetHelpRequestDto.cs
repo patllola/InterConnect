@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using Shared.Models.HelpRequest.Enums;
-using Shared.Models.User.Models;
 
 namespace Shared.Models.HelpRequest.Dtos.GetDto;
 
@@ -12,9 +11,9 @@ public class GetHelpRequestDto
     [Required]
     public Guid SeekerId { get; set; }
     
-    public User? Seeker { get; set; }
+    public Shared.Models.User.Models.User? Seeker { get; set; }
     
-    public User? Helper { get; set; }
+    public Shared.Models.User.Models.User? Helper { get; set; }
     
     [Required]
     public string Description { get; set; } = string.Empty;

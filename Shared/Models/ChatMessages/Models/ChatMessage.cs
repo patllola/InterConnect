@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Shared.Models.HelpRequest.Models;
+using HelpRequestModel = Shared.Models.HelpRequest.Models.HelpRequest;
 using Shared.Models.ChatMessages.Enums;
 
 namespace Shared.Models.ChatMessages.Models;
@@ -11,7 +11,7 @@ public class ChatMessage
     
     [Required]
     public Guid HelpRequestId { get; set; }
-    public HelpRequest? HelpRequest { get; set; }
+    public HelpRequestModel? HelpRequest { get; set; }
     
     [Required]
     public Guid SenderId { get; set; }

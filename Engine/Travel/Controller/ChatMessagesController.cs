@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Shared.Models;
+using Shared.Models.ChatMessages.Models;
 using Engine.Data;
 using Connect.Travel.Services;
 using System.Threading.Tasks;
