@@ -17,6 +17,8 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
 [Ll]og/
 [Ll]ogs/
 
@@ -56,6 +58,7 @@ $RECYCLE.BIN/
 # User-specific files (Rider)
 .idea/
 *.sln.DotSettings.user
+*.DotSettings.user
 
 # .NET Core
 project.lock.json
