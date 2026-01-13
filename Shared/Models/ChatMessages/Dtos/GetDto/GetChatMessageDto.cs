@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using Shared.Models.ChatMessages.Enums;
 
@@ -22,6 +23,6 @@ public class GetChatMessageDto
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
 
     [Required]
-    [EnumDataType(typeof(HelpRequestType))]
-    public HelpRequestType Type { get; set; }
+    [EnumDataType(typeof(ChatRequestType))]
+    public ChatRequestType Type { get; set; }
 }

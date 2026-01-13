@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using Shared.Models.User.Dtos.GetDto;
 

@@ -1,6 +1,7 @@
+using System;
 using System.ComponentModel.DataAnnotations;
-using HelpRequestModel = Shared.Models.HelpRequest.Models.HelpRequest;
 using Shared.Models.ChatMessages.Enums;
+using HelpRequestModel = Shared.Models.HelpRequest.Models.HelpRequest;
 
 namespace Shared.Models.ChatMessages.Models;
 
@@ -17,9 +18,13 @@ public class ChatMessage
     public Guid SenderId { get; set; }
     
     [Required]
+    [StringLength(2000)]
     public string Message { get; set; } = string.Empty;
     
+    [Required]
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
-    
-    public HelpRequestType Type { get; set; }
+
+    [Required]
+    [EnumDataType(typeof(ChatRequestType))]
+    public ChatRequestType Type { get; set; }
 }

@@ -1,14 +1,15 @@
+using System;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace Shared.Models.ChatMessages.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum HelpRequestType
+public enum ChatRequestType
 {
-    [Description("TravelHelp")]
-    TravelHelp = 0,
+    [Description("Message")]
+    Message = 0,
     
-    [Description("Other")]
-    Other = 1
+    [Description("Call")]
+    Call = 1
 }

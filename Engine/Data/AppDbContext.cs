@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models.User.Models;
 using Shared.Models.TravelPlan.Model;
@@ -10,10 +11,10 @@ namespace Engine.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<TravelPlan> TravelPlans { get; set; }
-        public DbSet<HelpRequest> HelpRequests { get; set; }
-        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<User> Users { get; set; } = default!;
+        public DbSet<TravelPlan> TravelPlans { get; set; } = default!;
+        public DbSet<HelpRequest> HelpRequests { get; set; } = default!;
+        public DbSet<ChatMessage> ChatMessages { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
