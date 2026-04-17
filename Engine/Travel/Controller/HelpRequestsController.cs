@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Connect.Travel.Services;
 using Shared.Models.HelpRequest.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Engine.Travel.Controller
 {
@@ -15,12 +14,10 @@ namespace Engine.Travel.Controller
     public class HelpRequestsController : ControllerBase
     {
         private readonly IHelpRequestService _service;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HelpRequestsController(IHelpRequestService service, IHttpContextAccessor httpContextAccessor)
+        public HelpRequestsController(IHelpRequestService service)
         {
             _service = service;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -70,9 +67,7 @@ namespace Engine.Travel.Controller
             return updated == null ? BadRequest("Cannot pay for this request.") : Ok(updated);
         }
 
-        private Guid GetUserId()
-        {
-            return Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        }
+        private Guid GetUserId() =>
+            Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
     }
 }

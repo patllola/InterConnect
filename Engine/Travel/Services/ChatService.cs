@@ -11,7 +11,7 @@ namespace Connect.Travel.Services;
 public interface IChatService
 {
     Task<List<ChatMessage>> GetByHelpRequestAsync(Guid requestId, Guid userId);
-    Task<ChatMessage> SendMessageAsync(ChatMessage message, Guid userId);
+    Task<ChatMessage?> SendMessageAsync(ChatMessage message, Guid userId);
 }
 
 public class ChatService : IChatService
@@ -30,7 +30,7 @@ public class ChatService : IChatService
             .ToListAsync();
     }
 
-    public async Task<ChatMessage> SendMessageAsync(ChatMessage message, Guid userId)
+    public async Task<ChatMessage?> SendMessageAsync(ChatMessage message, Guid userId)
     {
         var request = await _context.HelpRequests.FindAsync(message.HelpRequestId);
         if (request == null || (request.SeekerId != userId && request.HelperId != userId)) return null;

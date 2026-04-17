@@ -18,6 +18,10 @@ namespace Engine.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
             modelBuilder.Entity<HelpRequest>()
                 .HasOne(h => h.Seeker)
                 .WithMany()

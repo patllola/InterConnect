@@ -15,7 +15,7 @@ namespace Connect.Travel.Services;
 public interface ITravelPlanService
 {
     Task<List<TravelPlan>> GetAllAsync(Guid userId);
-    Task<TravelPlan> GetByIdAsync(Guid id, Guid userId);
+    Task<TravelPlan?> GetByIdAsync(Guid id, Guid userId);
     Task<TravelPlan> CreateAsync(TravelPlan plan, Guid userId);
     Task<bool> DeleteAsync(Guid id, Guid userId);
 }
@@ -28,7 +28,7 @@ public class TravelPlanService : ITravelPlanService
         public async Task<List<TravelPlan>> GetAllAsync(Guid userId) =>
             await _context.TravelPlans.Where(p => p.UserId == userId).Include(p => p.User).ToListAsync();
 
-        public async Task<TravelPlan> GetByIdAsync(Guid id, Guid userId) =>
+        public async Task<TravelPlan?> GetByIdAsync(Guid id, Guid userId) =>
             await _context.TravelPlans.FirstOrDefaultAsync(p => p.Id == id && p.UserId == userId);
 
         public async Task<TravelPlan> CreateAsync(TravelPlan plan, Guid userId)

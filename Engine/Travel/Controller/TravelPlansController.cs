@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Connect.Travel.Services;
 using Engine.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models.TravelPlan.Dtos.GetDto;
 using Shared.Models.TravelPlan.Dtos.CreateDto;
@@ -22,12 +19,10 @@ namespace Engine.Travel.Controller;
     public class TravelPlansController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TravelPlansController(AppDbContext context, IHttpContextAccessor httpContextAccessor)
+        public TravelPlansController(AppDbContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -46,7 +41,7 @@ namespace Engine.Travel.Controller;
                     Description = p.Description,
                     User = new UserPublicDto
                     {
-                        Id = p.User.Id,
+                        Id = p.User!.Id,
                         Name = p.User.Name
                     }
                 })
@@ -70,7 +65,7 @@ namespace Engine.Travel.Controller;
                     Description = p.Description,
                     User = new UserPublicDto
                     {
-                        Id = p.User.Id,
+                        Id = p.User!.Id,
                         Name = p.User.Name
                     }
                 })
@@ -126,7 +121,7 @@ namespace Engine.Travel.Controller;
                 Description = plan.Description,
                 User = new UserPublicDto
                 {
-                    Id = plan.User.Id,
+                    Id = plan.User!.Id,
                     Name = plan.User.Name
                 }
             };
@@ -145,8 +140,6 @@ namespace Engine.Travel.Controller;
             return NoContent();
         }
 
-        private Guid GetUserId()
-        {
-            return Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        }
+        private Guid GetUserId() =>
+            Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
     }

@@ -4,11 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Shared.Models.ChatMessages.Models;
 using Engine.Data;
-using Connect.Travel.Services;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using Microsoft.AspNetCore.Http;
 
 namespace Engine.Travel.Controller
 {
@@ -18,14 +16,10 @@ namespace Engine.Travel.Controller
     public class ChatMessagesController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IChatService _chatService;
 
-        public ChatMessagesController(AppDbContext context, IHttpContextAccessor httpContextAccessor, IChatService chatService)
+        public ChatMessagesController(AppDbContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
-            _chatService = chatService;
         }
 
         [HttpGet("byRequest/{requestId}")]
@@ -56,9 +50,7 @@ namespace Engine.Travel.Controller
             return Ok(message);
         }
 
-        private Guid GetUserId()
-        {
-            return Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        }
+        private Guid GetUserId() =>
+            Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
     }
 }

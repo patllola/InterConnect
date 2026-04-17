@@ -13,10 +13,10 @@ public interface IHelpRequestService
 {
     Task<List<HelpRequest>> GetAllAsync(Guid userId);
     Task<HelpRequest> CreateAsync(HelpRequest request, Guid seekerId);
-    Task<HelpRequest> AcceptAsync(Guid requestId, Guid helperId);
-    Task<HelpRequest> CompleteAsync(Guid requestId, Guid userId);
-    Task<HelpRequest> PayAsync(Guid requestId, Guid seekerId);
-    Task<object> GetDetailsAsync(Guid requestId, Guid userId);
+    Task<HelpRequest?> AcceptAsync(Guid requestId, Guid helperId);
+    Task<HelpRequest?> CompleteAsync(Guid requestId, Guid userId);
+    Task<HelpRequest?> PayAsync(Guid requestId, Guid seekerId);
+    Task<object?> GetDetailsAsync(Guid requestId, Guid userId);
 }
 
 public class HelpRequestService : IHelpRequestService
@@ -36,27 +36,29 @@ public class HelpRequestService : IHelpRequestService
             return request;
         }
 
-        public async Task<HelpRequest> AcceptAsync(Guid requestId, Guid helperId)
+        public async Task<HelpRequest?> AcceptAsync(Guid requestId, Guid helperId)
         {
             var request = await _context.HelpRequests.FirstOrDefaultAsync(r => r.Id == requestId);
             if (request == null) return null;
+            if (request.Status != HelpRequestStatus.Pending) return null;
             request.HelperId = helperId;
             request.Status = HelpRequestStatus.Accepted;
             await _context.SaveChangesAsync();
             return request;
         }
 
-        public async Task<HelpRequest> CompleteAsync(Guid requestId, Guid userId)
+        public async Task<HelpRequest?> CompleteAsync(Guid requestId, Guid userId)
         {
             var request = await _context.HelpRequests.FirstOrDefaultAsync(r => r.Id == requestId && (r.SeekerId == userId || r.HelperId == userId));
             if (request == null) return null;
+            if (request.Status != HelpRequestStatus.Accepted) return null;
             request.Status = HelpRequestStatus.Completed;
             request.CompletedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return request;
         }
 
-        public async Task<HelpRequest> PayAsync(Guid requestId, Guid seekerId)
+        public async Task<HelpRequest?> PayAsync(Guid requestId, Guid seekerId)
         {
             var request = await _context.HelpRequests.FirstOrDefaultAsync(r => r.Id == requestId && r.SeekerId == seekerId);
             if (request == null || request.Status != HelpRequestStatus.Completed) return null;
@@ -65,7 +67,7 @@ public class HelpRequestService : IHelpRequestService
             return request;
         }
 
-        public async Task<object> GetDetailsAsync(Guid requestId, Guid userId)
+        public async Task<object?> GetDetailsAsync(Guid requestId, Guid userId)
         {
             var request = await _context.HelpRequests
                 .Include(r => r.Seeker)
@@ -83,10 +85,10 @@ public class HelpRequestService : IHelpRequestService
                 request.Status,
                 request.Price,
                 request.IsPaid,
-                Seeker = showFullInfo ? (object)new { request.Seeker.Id, request.Seeker.Name, request.Seeker.Email, request.Seeker.PhoneNumber } 
-                                     : new { request.Seeker.Id, request.Seeker.Name },
-                Helper = request.Helper == null ? null : (showFullInfo ? (object)new { request.Helper.Id, request.Helper.Name, request.Helper.Email, request.Helper.PhoneNumber }
-                                                                     : new { request.Helper.Id, request.Helper.Name })
+                Seeker = showFullInfo ? (object)new { request.Seeker!.Id, request.Seeker.Name, request.Seeker.Email, request.Seeker.PhoneNumber }
+                                     : new { request.Seeker!.Id, request.Seeker.Name },
+                Helper = request.Helper == null ? null : (showFullInfo ? (object)new { request.Helper!.Id, request.Helper.Name, request.Helper.Email, request.Helper.PhoneNumber }
+                                                                     : new { request.Helper!.Id, request.Helper.Name })
             };
         }
     }
